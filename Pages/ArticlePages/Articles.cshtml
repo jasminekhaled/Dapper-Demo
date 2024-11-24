@@ -1,0 +1,37 @@
+﻿@page
+@model RazorDemo.Pages.ArticlePages.ArticlesModel
+
+
+<h2>Articles</h2>
+<a asp-page="/ArticlePages/CreateArticle" class="btn btn-primary" style="margin-bottom: 20px; margin-top:20px; margin-right:20px;">Create New Article</a>
+<a asp-page="/ArticlePages/UserArticles" class="btn btn-primary" style="margin-bottom: 20px; margin-top:20px">My Articles</a>
+@if(!Model.Articles.Any())
+{
+    <h5>No Articles Added Yet!</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var article in Model.Articles)
+            {
+                <tr>
+                    <td>@article.Title</td>
+                    <td>@article.UserName</td>
+                    <td>
+                        <a asp-page="/ArticlePages/ArticleDetails" asp-route-id="@article.Id" class="btn btn-outline-success">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+

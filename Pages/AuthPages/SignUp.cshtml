@@ -1,0 +1,24 @@
+﻿@page
+@model RazorDemo.Pages.AuthPages.SignUpModel
+
+<h2>SignUp</h2>
+<form method="post" style="width: 300px; margin-top:20px">
+    <div class="form-group" style="margin-bottom:10px">
+        <label for="UserName">Name</label>
+        <input type="text" id="UserName" name="signupUser.UserName" class="form-control" required />
+    </div>
+    <div class="form-group" style="margin-bottom:10px">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="signupUser.Email" class="form-control" required />
+    </div>
+    <div class="form-group" style="margin-bottom:10px">
+        <label for="Password">Password</label>
+        <input type="password" id="Password" name="signupUser.Password" class="form-control" required />
+    </div>
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p style="color: red;">@Model.ErrorMessage</p>
+    }
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+<a asp-page="/AuthPages/Login">Already have an account</a>

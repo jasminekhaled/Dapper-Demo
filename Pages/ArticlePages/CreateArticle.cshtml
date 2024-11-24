@@ -1,0 +1,43 @@
+﻿@page
+@model RazorDemo.Pages.ArticlePages.CreateArticleModel
+
+
+<h2>Create New Article</h2>
+<form method="post" style="width: 500px; margin-top:20px">
+    <div class="form-group" style="margin-bottom:10px">
+        <label for="Title">Title</label>
+        <input type="text" id="Title" name="Article.Title" class="form-control" required data-content="Article.Title" />
+    </div>
+    <div class="form-group" style="margin-bottom:10px">
+        <label for="Body">Body</label>
+        <input type="text" id="Body" name="Article.Body" class="form-control" style="height:max-content" required />
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <p style="color: red;">@Model.ErrorMessage</p>
+    }
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+
+@section Scripts {
+    <script>
+        // Check if the operation was successful and display SweetAlert
+        @if (Model.IsDone)
+        {
+            <text>
+                            Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "The Articled is Created successfully",
+                            showConfirmButton: false,
+                            timer: 1500
+                    });
+                            setTimeout(function () {
+                                window.location.href = "/ArticlePages/Articles";}, 1500);
+            </text>
+        }
+
+    </script>
+}

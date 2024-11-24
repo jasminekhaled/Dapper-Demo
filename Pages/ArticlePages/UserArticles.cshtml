@@ -1,0 +1,88 @@
+﻿@page
+@model RazorDemo.Pages.ArticlePages.UserArticlesModel
+
+<h2>Articles</h2>
+<a asp-page="/ArticlePages/CreateArticle" class="btn btn-primary" style="margin-bottom: 20px; margin-top:20px; margin-right:20px">Create New Article</a>
+<a asp-page="/ArticlePages/Articles" class="btn btn-primary" style="margin-bottom: 20px; margin-top:20px">All Articles</a>
+@if (!Model.Articles.Any())
+{
+    <h5>No Articles Added Yet!</h5>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Body</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var article in Model.Articles)
+            {
+                <tr>
+                    <td>@article.Title</td>
+                    <td>@article.UserName</td>
+                    <td><a asp-page="/ArticlePages/ArticleDetails" asp-route-id="@article.Id">Details</a></td>
+                    <td>
+                        <a asp-page="/ArticlePages/EditArticle" asp-route-id="@article.Id" class="btn btn-primary">Edit</a>
+                        <button asp-page="/ArticlePages/UserArticles" data-id="@article.Id" id="DeleteBtn" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Bind the delete button click event
+            $(document).on('click', '#DeleteBtn', function () {
+                var btn = $(this); // The button being clicked
+                var articleId = btn.data('id'); // Get the article ID from the data attribute
+
+                // Show SweetAlert confirmation dialog
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "danger",
+                    cancelButtonColor: "#6cc3d5",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Perform AJAX request to call OnGet in Delete.cshtml.cs
+                        $.ajax({
+                            url: `/ArticlePages/DeleteArticle`, // URL of the delete Razor page
+                            method: 'GET', // Razor Pages default HTTP method
+                            data: { id: articleId }, // Pass article ID
+                            success: function () {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: "The article has been deleted.",
+                                    icon: "success"
+                                });
+                                btn.parents('tr').fadeOut(); // Remove the row from the table
+                            },
+                            error: function () {
+                                Swal.fire({
+                                    title: "Oops!",
+                                    text: "Something went wrong!",
+                                    icon: "error"
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}
+
