@@ -58,6 +58,17 @@ namespace RazorDemo.Services.Services
             return user;
         }
 
+        public async Task<UserResponseDto> GetByUserNameAsync(string userName)
+        {
+            var query = "SELECT * FROM Users WHERE UserName = @UserName";
+            var user = await _db.QuerySingleOrDefaultAsync<UserResponseDto>(query, new { UserName = userName });
+            if (user == null)
+            {
+                throw new Exception($"No user found with UserName {userName}.");
+            }
+            return user;
+        }
+
         public async Task<GeneralResponse<string>> ForgetPassword(UpdateUserDto dto)
         {
             try

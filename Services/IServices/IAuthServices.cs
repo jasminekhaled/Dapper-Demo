@@ -8,6 +8,7 @@ namespace RazorDemo.Services.IServices
     public interface IAuthServices
     {
         Task<UserResponseDto> GetByIdAsync(int id);
+        Task<UserResponseDto> GetByUserNameAsync(string userName);
         Task<GeneralResponse<string>> SignUp(AddUserDto dto);
         Task<GeneralResponse<string>> ForgetPassword(UpdateUserDto dto);
         Task<GeneralResponse<LoginResponseDto>>  Login(LoginDto dto);
